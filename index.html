@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAIDALVAN TOOLS - Hack Your Termux</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #0a0a1a;
+            color: #e0e0e0;
+            font-family: 'Roboto Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* MATRIX RAIN CANVAS */
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.15;
+        }
+
+      .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 255, 136, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.07) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 30px 30px; }
+        }
+
+      .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 16px 60px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+      .badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            color: #000;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            margin-bottom: 24px;
+            font-family: 'Orbitron', sans-serif;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff; }
+            50% { box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; }
+        }
+
+      .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #00ff88;
+            box-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88;
+            margin: 0 auto 20px;
+            object-fit: cover;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 32px;
+            background: linear-gradient(90deg, #00ff88, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            animation: glitch 5s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+            92% { text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+            93% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+            94% { text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+        }
+
+      .subtitle {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 28px;
+            min-height: 20px;
+        }
+
+      .subtitle::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+      .btn-tiktok {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            border: 2px solid #ff0050;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            box-shadow: 0 0 15px #ff0050, inset 0 0 10px rgba(255, 0, 80, 0.3);
+            transition: all 0.3s ease;
+            margin: 0 8px 20px;
+        }
+
+      .btn-tiktok:active { transform: scale(0.95); }
+
+      .visitor-counter {
+            font-size: 11px;
+            color: #00ff88;
+            margin-bottom: 30px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+      .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+
+      .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            margin-bottom: 4px;
+        }
+
+      .stat-label { font-size: 12px; color: #888; }
+
+      .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+      .feature-card {
+            background: rgba(20, 20, 40, 0.6);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 20px 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+      .feature-card:active {
+            transform: scale(0.95);
+            border-color: #00ff88;
+        }
+
+      .feature-card:nth-child(3) { grid-column: 1 / -1; }
+      .feature-icon { font-size: 32px; margin-bottom: 12px; }
+      .feature-card h3 { color: #00ff88; font-size: 16px; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; }
+      .feature-card p { font-size: 12px; color: #bbb; line-height: 1.5; }
+
+      .install-box {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 16px;
+            padding: 24px 16px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            margin-bottom: 30px;
+        }
+
+      .install-box h3 { color: #00ff88; font-family: 'Orbitron', sans-serif; font-size: 16px; margin-bottom: 16px; }
+
+      .command-box {
+            background: #000;
+            border-left: 4px solid #00ff88;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 11px;
+            color: #00ff88;
+            margin-bottom: 16px;
+            word-break: break-all;
+        }
+
+      .btn-copy {
+            background: linear-gradient(90deg, #00ff88, #00ffaa);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 0 15px #00ff88;
+            transition: all 0.3s ease;
+        }
+
+      .btn-copy:active { transform: scale(0.95); }
+
+        /* TOAST NOTIFICATION */
+      .toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #00ff88, #00aaff);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 0 20px #00ff88;
+            transition: bottom 0.5s ease;
+            z-index: 1000;
+        }
+
+      .toast.show { bottom: 30px; }
+
+      .footer { font-size: 12px; color: #666; margin-top: 20px; }
+
+        /* FITUR BARU V5.0 */
+        body.light {
+            background-color: #f0f0f0;
+            color: #111;
+        }
+        body.light.grid-bg {
+            background-image:
+                linear-gradient(rgba(0, 100, 50, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 100, 50, 0.1) 1px, transparent 1px);
+        }
+        body.light.feature-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 255, 136, 0.4);
+        }
+        body.light.stat-label, body.light.subtitle { color: #555; }
+        body.light.command-box { background: #e0e0e0; color: #008844; }
+
+       .floating-btn {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #00ff88, #00ffff);
+            border: none;
+            color: #000;
+            font-size: 24px;
+            box-shadow: 0 0 15px #00ff88;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+       .floating-btn:active { transform: scale(0.9); }
+        #themeToggle { bottom: 20px; right: 20px; }
+        #musicToggle { bottom: 80px; right: 20px; }
+        #shareBtn { bottom: 140px; right: 20px; }
+
+       .btn-download {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff00ff, #ff0050);
+            color: #fff;
+            border: 2px solid #ff00ff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            box-shadow: 0 0 15px #ff00ff;
+            margin: 0 8px 20px;
+            transition: all 0.3s ease;
+        }
+       .btn-download:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div class="grid-bg"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <div class="badge">🔥 v5.0 HACKER EDITION RELEASED</div>
+
+        <img src="./logo.jpg" class="logo" alt="Zaidalvan Logo" onerror="this.style.display='none'">
+
+        <h1>ZAIDALVAN TOOLS</h1>
+        <p class="subtitle" id="typingText"></p>
+
+        <a href="intent://user?username=van_str11#Intent;scheme=tiktok;package=com.zhiliaoapp.musically;S.browser_fallback_url=https://www.tiktok.com/@van_str11;end" class="btn-tiktok">
+            ▶ Follow @van_str11 di TikTok
+        </a>
+
+        <a href="https://github.com/VANSTR11/zaidalvan/archive/refs/heads/main.zip" class="btn-download">
+            ⬇ Download Tools.ZIP
+        </a>
+
+        <div class="visitor-counter" id="visitorCount">👁️ Loading visitors...</div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Free</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Tools</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card" onclick="playBeep()">
+                <div class="feature-icon">⚡</div>
+                <h3>Super Cepat</h3>
+                <p>Install cuma 10 detik. Langsung pake tanpa ribet setup.</p>
+            </div>
+            <div class="feature-card" onclick="playBeep()">
+                <div class="feature-icon">🎨</div>
+                <h3>Tampilan Keren</h3>
+                <p>UI hacker aesthetic dengan warna RGB + animasi glitch.</p>
+            </div>
+            <div class="feature-card" onclick="playBeep()">
+                <div class="feature-icon">🔓</div>
+                <h3>Open Source</h3>
+                <p>Kode terbuka di GitHub. Bisa lu modif sesuka hati.</p>
+            </div>
+        </div>
+
+        <div class="install-box">
+            <h3>📋 COPY 1 LINE INI DI TERMUX:</h3>
+            <div class="command-box" id="commandText">
+                pkg install git -y && git clone https://github.com/VANSTR11/zaidalvan.git && cd zaidalvan && chmod +x menu.sh &&./menu.sh
+            </div>
+            <button class="btn-copy" id="copyBtn">📋 COPY COMMAND</button>
+        </div>
+
+        <div class="footer">
+            🌿 MADE WITH CODE BY @VANSTR11 🌿
+        </div>
+    </div>
+
+    <!-- FLOATING BUTTONS -->
+    <button class="floating-btn" id="themeToggle" onclick="toggleTheme()">☀️</button>
+    <button class="floating-btn" id="musicToggle" onclick="toggleMusic()">🎵</button>
+    <button class="floating-btn" id="shareBtn" onclick="shareWeb()">📤</button>
+
+    <!-- AUDIO HACKER -->
+    <audio id="bgMusic" loop>
+        <source src="https://files.catbox.moe/6n5g8a.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // 1. MATRIX RAIN EFFECT
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const chars = '01アイウエオカキクケコ';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(10, 10, 26, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff88';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
+        // 2. TYPING ANIMATION
+        const texts = ['Tools Termux Paling Gacor buat pemula', 'Hack Your Termux Like a Pro', '100% Free & Open Source'];
+        let textIndex = 0, charIndex = 0;
+        const typingElement = document.getElementById('typingText');
+
+        function typeText() {
+            if (charIndex < texts[textIndex].length) {
+                typingElement.textContent += texts[textIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeText, 80);
+            } else {
+                setTimeout(eraseText, 2000);
+            }
+        }
+
+        function eraseText() {
+            if (charIndex > 0) {
+                typingElement.textContent = texts[textIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(eraseText, 40);
+            } else {
+                textIndex = (textIndex + 1) % texts.length;
+                setTimeout(typeText, 500);
+            }
+        }
+        typeText();
+
+        // 3. VISITOR COUNTER
+        let visits = localStorage.getItem('zaidalvanVisits');
+        visits = visits? parseInt(visits) + 1 : 1337;
+        localStorage.setItem('zaidalvanVisits', visits);
+        document.getElementById('visitorCount').innerText = `👁️ ${visits.toLocaleString()} Hacker Visited`;
+
+        // 4. TOAST NOTIFICATION
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // 5. SOUND FX
+        function playBeep() {
+            const audio = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
+            audio.volume = 0.2;
+            audio.play().catch(e => {});
+        }
+
+        // 6. COPY COMMAND
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            playBeep();
+            const command = document.getElementById('commandText').innerText;
+            navigator.clipboard.writeText(command).then(() => {
+                showToast('✅ Command berhasil dicopy bro!');
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = '✅ COPIED!';
+                setTimeout(() => btn.innerText = '📋 COPY COMMAND', 2000);
+            });
+        });
+
+        // 7. FITUR BARU V5.0
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            const btn = document.getElementById('themeToggle');
+            btn.innerText = document.body.classList.contains('light')? '🌙' : '☀️';
+            localStorage.setItem('theme', document.body.classList.contains('light')? 'light' : 'dark');
+        }
+        if(localStorage.getItem('theme') === 'light') toggleTheme();
+
+        const music = document.getElementById('bgMusic');
+        let isPlaying = false;
+        function toggleMusic() {
+            const btn = document.getElementById('musicToggle');
+            if(isPlaying) {
+                music.pause();
+                btn.innerText = '🎵';
+                showToast('🔇 Music Paused');
+            } else {
+                music.play();
+                btn.innerText = '🔊';
+                showToast('🎵 Music Playing');
+            }
+            isPlaying =!isPlaying;
+        }
+
+        function shareWeb() {
+            playBeep();
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ZAIDALVAN TOOLS',
+                    text: 'Tools Termux Paling Gacor buat pemula 🔥',
+                    url: 'https://vanstr11.github.io'
+                });
+            } else {
+                navigator.clipboard.writeText('https://vanstr11.github.io');
+                showToast('🔗 Link berhasil dicopy!');
+            }
+        }
+    </script>
+</body>
+</html>
